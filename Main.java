@@ -42,14 +42,15 @@ public class Main {
     }
     return split_values;
   }
+
   public static char[][] convert(String[] input) {
     char[][] new_input = new char[15][8];
 
     for (int k = 0; k < input.length; k++) {
-      for (int l = 0; l < 7; l++) {
+      for (int l = 0; l < 8; l++) {
         new_input[k][l] = input[k].charAt(l);
-        System.out.print(new_input[k][l]);
       }
+      System.out.print(new_input[k][7] + "\n");
     }
     return new_input;
 
@@ -61,7 +62,7 @@ public class Main {
 
     if (input1.length == input2.length) {
       for (int i = 0; i < input1.length; i++) {
-        for (int j = 0; j < 7; j++) {
+        for (int j = 0; j < 8; j++) {
           if (input1[i][j] == '0' && input2[i][j] == '0') {
             result[i][j] = '0';
           } else if (input1[i][j] == '1' && input2[i][j] == '1') {
