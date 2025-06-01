@@ -1,8 +1,6 @@
 public class Main {
   public static void main(String[] args) {
-
-    hsah("Heellooo");
-
+    hsah("Heellooo", false, true, true);
   } // end of main
 
   public static String binary_conversion(String input) {
@@ -20,7 +18,6 @@ public class Main {
       while (adjusted.length() < 128) {
         adjusted.append("0");
       }
-
     }
     return adjusted.toString();
   }
@@ -46,8 +43,11 @@ public class Main {
 
   }
 
-  public static char[][] xor(char[][] input_one, char[][] input_two, int number) {
+  public static char[][] xor(char[][] input_one, char[][] input_two, int number, Boolean print) {
     char[][] result = new char[input_one.length][input_one[0].length];
+    if (print == true) {
+      System.out.print("\n XOR result: \n");
+    }
 
     if (input_one.length == input_two.length) {
       for (int k = 0; k < number; k++) {
@@ -62,17 +62,21 @@ public class Main {
             } else if (input_one[i][j] == '1' && input_two[i][j] == '0') {
               result[i][j] = '1';
             }
-            System.out.print(result[i][j]);
+            if (print == true) {
+              System.out.print(result[i][j]);
+            }
           }
         }
-        System.out.print("\n");
         input_one = result;
       }
+    }
+    if (print == true) {
+      System.out.print("\n");
     }
     return result;
   }
 
-  public static char[][] shift(char[][] input, int number) {
+  public static char[][] shift(char[][] input, int number, Boolean print) {
     char[][] output = new char[input.length][input[0].length];
     char save;
     // shiftcounter
@@ -90,66 +94,70 @@ public class Main {
       input = output;
     }
 
-    for (int l = 0; l < output.length; l++) {
-      System.out.println(output[l]);
+    if (print == true) {
+      System.out.print("\n Shift result:\n");
+      for (int l = 0; l < output.length; l++) {
+        System.out.println(output[l]);
+      }
+      System.out.print("\n");
     }
 
     return output;
-
   }
 
-  public static char[][] init_values(String data, Boolean a) {
+  public static char[][] init_values(String data, Boolean print) {
     String output = binary_conversion(data);
     output = adjust_size(output);
-    System.out.println(output + "\n" + output.length());
+
+    if (print == true) {
+      System.out.println(output + "\n" + "Length:" + "\n" + output.length());
+      System.out.println("\n");
+    }
     String[] output_list = split(output);
 
-    if (a == true) {
+    if (print == true) {
       for (int k = 0; k < output_list.length; k++) {
         System.out.println(output_list[k]);
       }
-    } else {
+      System.out.println("\n");
     }
-
     char[][] input = convert(output_list);
 
-    if (a = true) {
-      for (int i = 0; i < input.length; i++) {
-        for (int j = 0; j < input[i].length; j++) {
-          // System.out.print(input[i][j]);
-        }
-      }
-    } else {
+    if (print == true) {
+      System.out.print("\n");
     }
 
+    if (print == true) {
+      for (int i = 0; i < input.length; i++) {
+        for (int j = 0; j < input[i].length; j++) {
+          System.out.print(input[i][j]);
+        }
+      }
+      System.out.print("\n");
+    }
     return input;
   }
 
-  public static void hsah(String data) {
+  public static void hsah(String data, Boolean print_inputs, Boolean print_xor, Boolean print_shift) {
     // first set of data to be hashed
-    char[][] input_one = init_values(data, false);
+    char[][] input_one = init_values(data, print_inputs);
 
-    // space
-    System.out.println("\n");
+    // static hashind datasets
+    char[][] input_two = init_values("823b4erhdsa8ufnb", print_inputs);
+    char[][] input_three = init_values("lköwrienheß", print_inputs);
+    char[][] input_four = init_values("jkasdhh2ndin", print_inputs);
 
-    // second set of data
-    char[][] input_two = init_values("823b4erhdsa8ufnb", false);
+    char[][] xor_result = xor(input_one, input_two, 1, print_xor);
+    xor_result = xor(input_one, input_three, 1, print_xor);
+    xor_result = xor(input_one, input_four, 1, print_xor);
 
-    // space
-    System.out.println("\n");
-
-    char[][] xor_result = xor(input_one, input_two, 1);
-
-    // space
-    System.out.println("\n");
-
-    for (int m = 0; m < xor_result.length; m++) {
-      System.out.println(xor_result[m]);
+    if (print_xor == true) {
+      for (int m = 0; m < xor_result.length; m++) {
+        System.out.println(xor_result[m]);
+      }
+      System.out.print("\n");
     }
 
-    // space
-    System.out.println("\n");
-
-    char[][] shift_result = shift(xor_result, 1);
+    char[][] shift_result = shift(xor_result, 1, print_shift);
   };
 }
