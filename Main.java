@@ -1,55 +1,7 @@
 public class Main {
   public static void main(String[] args) {
 
-    // first Dataset to hsah
-    String converted = binary_conversion("Helloooo");
-    String adjusted = adjust_size(converted);
-    System.out.println(adjusted + "\n" + adjusted.length());
-    String[] split_values = split(adjusted);
-
-    for (int k = 0; k < split_values.length; k++) {
-      // System.out.println(split_values[k]);
-    }
-
-    char[][] new_input_one = convert(split_values);
-
-    for (int i = 0; i < new_input_one.length; i++) {
-      for (int j = 0; j < new_input_one[i].length; j++) {
-        // System.out.print(new_input_one[i][j]);
-      }
-    }
-
-    // space
-    System.out.println("\n");
-
-    // second static Dataset to hsah
-    String converted_two = binary_conversion("|2i]+#l?*72jw");
-    String adjusted_two = adjust_size(converted_two);
-    System.out.println(adjusted_two + "\n" + adjusted_two.length());
-    String[] split_values_two = split(adjusted_two);
-
-    for (int m = 0; m < split_values_two.length; m++) {
-      // System.out.println(split_values_two[m]);
-    }
-
-    char[][] new_input_two = convert(split_values_two);
-
-    // space
-    System.out.println("\n");
-
-    char[][] xor_result = xor(new_input_one, new_input_two);
-
-    // space
-    System.out.println("\n");
-
-    for (int m = 0; m < xor_result.length; m++) {
-      System.out.println(xor_result[m]);
-    }
-
-    // space
-    System.out.println("\n");
-
-    char[][] shift_result = shift(xor_result, 1);
+    hsah("Heellooo");
 
   } // end of main
 
@@ -94,23 +46,27 @@ public class Main {
 
   }
 
-  public static char[][] xor(char[][] input_one, char[][] input_two) {
+  public static char[][] xor(char[][] input_one, char[][] input_two, int number) {
     char[][] result = new char[input_one.length][input_one[0].length];
 
     if (input_one.length == input_two.length) {
-      for (int i = 0; i < input_one.length; i++) {
-        for (int j = 0; j < input_one[i].length; j++) {
-          if (input_one[i][j] == '0' && input_two[i][j] == '0') {
-            result[i][j] = '0';
-          } else if (input_one[i][j] == '1' && input_two[i][j] == '1') {
-            result[i][j] = '0';
-          } else if (input_one[i][j] == '0' && input_two[i][j] == '1') {
-            result[i][j] = '1';
-          } else if (input_one[i][j] == '1' && input_two[i][j] == '0') {
-            result[i][j] = '1';
+      for (int k = 0; k < number; k++) {
+        for (int i = 0; i < input_one.length; i++) {
+          for (int j = 0; j < input_one[i].length; j++) {
+            if (input_one[i][j] == '0' && input_two[i][j] == '0') {
+              result[i][j] = '0';
+            } else if (input_one[i][j] == '1' && input_two[i][j] == '1') {
+              result[i][j] = '0';
+            } else if (input_one[i][j] == '0' && input_two[i][j] == '1') {
+              result[i][j] = '1';
+            } else if (input_one[i][j] == '1' && input_two[i][j] == '0') {
+              result[i][j] = '1';
+            }
+            System.out.print(result[i][j]);
           }
-          System.out.print(result[i][j]);
         }
+        System.out.print("\n");
+        input_one = result;
       }
     }
     return result;
@@ -124,7 +80,7 @@ public class Main {
       for (int j = 0; j < input.length; j++) {
         save = input[j][0];
         for (int k = 0; k < input[j].length; k++) {
-          if (k < ((input[j].length)-1)) {
+          if (k < ((input[j].length) - 1)) {
             output[j][k] = input[j][k + 1];
           } else {
             output[j][k] = save;
@@ -142,6 +98,58 @@ public class Main {
 
   }
 
-  public static void magic(String[] data) {
+  public static char[][] init_values(String data, Boolean a) {
+    String output = binary_conversion(data);
+    output = adjust_size(output);
+    System.out.println(output + "\n" + output.length());
+    String[] output_list = split(output);
+
+    if (a == true) {
+      for (int k = 0; k < output_list.length; k++) {
+        System.out.println(output_list[k]);
+      }
+    } else {
+    }
+
+    char[][] input = convert(output_list);
+
+    if (a = true) {
+      for (int i = 0; i < input.length; i++) {
+        for (int j = 0; j < input[i].length; j++) {
+          // System.out.print(input[i][j]);
+        }
+      }
+    } else {
+    }
+
+    return input;
+  }
+
+  public static void hsah(String data) {
+    // first set of data to be hashed
+    char[][] input_one = init_values(data, false);
+
+    // space
+    System.out.println("\n");
+
+    // second set of data
+    char[][] input_two = init_values("823b4erhdsa8ufnb", false);
+
+    // space
+    System.out.println("\n");
+
+    char[][] xor_result = xor(input_one, input_two, 1);
+
+    // space
+    System.out.println("\n");
+
+    for (int m = 0; m < xor_result.length; m++) {
+      System.out.println(xor_result[m]);
+    }
+
+    // space
+    System.out.println("\n");
+
+    char[][] shift_result = shift(xor_result, 1);
   };
 }
