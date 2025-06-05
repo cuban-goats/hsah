@@ -1,6 +1,6 @@
 public class Main {
   public static void main(String[] args) {
-    hsah("HsahhsahHsahhsah", false, false, true, true, true);
+    hsah("HsahhsahHsahhsah", false, false, false, false, true, true);
   } // end of main
 
   public static String binary_conversion(String input) {
@@ -41,6 +41,28 @@ public class Main {
     }
     return new_input;
 
+  }
+
+  public static int[] decimal_conversion(char[][] binary, Boolean print) {
+    String[] binary_string = new String[binary.length];
+    for (int i = 0; i < binary.length; i++) {
+      binary_string[i] = new String(binary[i]);
+    }
+
+    int[] decimal = new int[binary_string.length];
+
+    for (int j = 0; j < binary_string.length; j++) {
+      decimal[j] = Integer.parseInt(binary_string[j], 2);
+    }
+
+    if (print == true) {
+      System.out.println("decimal value:");
+      for (int k = 0; k < decimal.length; k++) {
+        System.out.print(decimal[k] + " ");
+      }
+      System.out.println("\n");
+    }
+    return decimal;
   }
 
   public static char[][] xor(char[][] input_one, char[][] input_two, int number, Boolean print) {
@@ -147,7 +169,7 @@ public class Main {
     if (print == true) {
       System.out.println("added value:");
       for (int j = 0; j < input_one.length; j++) {
-        System.out.println(result[j]);
+        System.out.print(result[j] + " ");
       }
       System.out.println("\n");
     }
@@ -155,30 +177,27 @@ public class Main {
     return result;
   }
 
-  public static int[] decimal_conversion(char[][] binary, Boolean print) {
-    String[] binary_string = new String[binary.length];
-    for (int i = 0; i < binary.length; i++) {
-      binary_string[i] = new String(binary[i]);
-    }
+  public static int[] modulo(int[] input_one, int[] input_two, Boolean print) {
+    int[] result = new int[input_one.length];
 
-    int[] decimal = new int[binary_string.length];
-
-    for (int j = 0; j < binary_string.length; j++) {
-      decimal[j] = Integer.parseInt(binary_string[j], 2);
+    for (int i = 0; i < input_one.length; i++) {
+      result[i] = input_one[i] % input_two[i];
     }
 
     if (print == true) {
-      System.out.println("decimal value:");
-      for (int k = 0; k < decimal.length; k++) {
-        System.out.print(decimal[k] + " ");
+      System.out.println("modulo value:");
+      for (int j = 0; j < input_one.length; j++) {
+        System.out.print(result[j] + " ");
       }
       System.out.println("\n");
     }
-    return decimal;
+
+    return result;
+
   }
 
   public static void hsah(String data, Boolean print_inputs, Boolean print_xor, Boolean print_shift,
-      Boolean print_decimals, Boolean print_added_results) {
+      Boolean print_decimals, Boolean print_added_results, Boolean print_modulo) {
     // first set of data to be hashed
     char[][] input_one = init_values(data, print_inputs);
 
@@ -198,7 +217,7 @@ public class Main {
       System.out.print("\n");
     }
 
-    char[][] shift_result = shift(xor_result, 1, print_shift);
+    char[][] shift_result = shift(xor_result, 8, print_shift);
 
     int[] input_numeric_value = decimal_conversion(shift_result, print_decimals);
     int[] input_numeric_value_two = decimal_conversion(init_values("823b4erhdsa8ufnb", print_inputs), print_decimals);
@@ -208,5 +227,11 @@ public class Main {
     int[] added_values = add(input_numeric_value, input_numeric_value_two, print_added_results);
     added_values = add(added_values, input_numeric_value_three, print_added_results);
     added_values = add(added_values, input_numeric_value_four, print_added_results);
+
+    int[] modulo_values = modulo(input_numeric_value, input_numeric_value_two, print_modulo);
+    modulo_values = modulo(modulo_values, input_numeric_value_two, print_modulo);
+    modulo_values = modulo(modulo_values, input_numeric_value_three, print_modulo);
+    modulo_values = modulo(modulo_values, input_numeric_value_four, print_modulo);
+    modulo_values = modulo(modulo_values, added_values, print_modulo);
   };
 }
