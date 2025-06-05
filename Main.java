@@ -1,6 +1,6 @@
 public class Main {
   public static void main(String[] args) {
-    hsah("Heellooo", false, true, true);
+    hsah("HsahhsahHsahhsah", false, true, true);
   } // end of main
 
   public static String binary_conversion(String input) {
@@ -138,11 +138,62 @@ public class Main {
     return input;
   }
 
+  public static char[][] add(char[][] input_one, char[][] input_two, Boolean print) {
+
+    char[][] result = new char[input_one.length][input_one[0].length];
+    if (print == true) {
+      System.out.print("\n additon result: \n");
+    }
+
+    if (input_one.length == input_two.length) {
+      for (int i = 0; i < input_one.length; i++) {
+        for (int j = 0; j < input_one[i].length; j++) {
+          if (input_one[i][j] == '0' && input_two[i][j] == '0') {
+            result[i][j] = '0';
+          } else if (input_one[i][j] == '1' && input_two[i][j] == '1') {
+            result[i][j] = '0';
+          } else if (input_one[i][j] == '0' && input_two[i][j] == '1') {
+            result[i][j] = '1';
+          } else if (input_one[i][j] == '1' && input_two[i][j] == '0') {
+            result[i][j] = '1';
+          }
+          if (print == true) {
+            System.out.print(result[i][j]);
+          }
+        }
+      }
+    }
+    if (print == true) {
+      System.out.print("\n");
+    }
+    return result;
+  }
+
+  public static int[] decimal_conversion(char[][] binary, Boolean print) {
+    String[] binary_string = new String[binary.length];
+    for (int i = 0; i < binary.length; i++) {
+      binary_string[i] = new String(binary[i]);
+    }
+
+    int[] decimal = new int[binary_string.length]; 
+
+    for (int j = 0; j < binary_string.length; j++) {
+      decimal[j] = Integer.parseInt(binary_string[j], 2);
+    }
+
+    if (print == true) {
+      for (int k = 0; k < decimal.length; k++) {
+        System.out.println(decimal[k]);
+      }
+    }
+    return decimal;
+  }
+
   public static void hsah(String data, Boolean print_inputs, Boolean print_xor, Boolean print_shift) {
     // first set of data to be hashed
     char[][] input_one = init_values(data, print_inputs);
 
-    // static hashind datasets
+    // static hsahing datasets
     char[][] input_two = init_values("823b4erhdsa8ufnb", print_inputs);
     char[][] input_three = init_values("lköwrienheß", print_inputs);
     char[][] input_four = init_values("jkasdhh2ndin", print_inputs);
@@ -159,5 +210,8 @@ public class Main {
     }
 
     char[][] shift_result = shift(xor_result, 1, print_shift);
+
+    int[] decimal_values = decimal_conversion(shift_result, true);
+
   };
 }
