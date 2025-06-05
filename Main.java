@@ -1,6 +1,6 @@
 public class Main {
   public static void main(String[] args) {
-    hsah("HsahhsahHsahhsah", false, true, true);
+    hsah("HsahhsahHsahhsah", false, false, true, true, true);
   } // end of main
 
   public static String binary_conversion(String input) {
@@ -138,34 +138,20 @@ public class Main {
     return input;
   }
 
-  public static char[][] add(char[][] input_one, char[][] input_two, Boolean print) {
-
-    char[][] result = new char[input_one.length][input_one[0].length];
-    if (print == true) {
-      System.out.print("\n additon result: \n");
+  public static int[] add(int[] input_one, int[] input_two, Boolean print) {
+    int[] result = new int[input_one.length];
+    for (int i = 0; i < input_one.length; i++) {
+      result[i] = input_one[i] + input_two[i];
     }
 
-    if (input_one.length == input_two.length) {
-      for (int i = 0; i < input_one.length; i++) {
-        for (int j = 0; j < input_one[i].length; j++) {
-          if (input_one[i][j] == '0' && input_two[i][j] == '0') {
-            result[i][j] = '0';
-          } else if (input_one[i][j] == '1' && input_two[i][j] == '1') {
-            result[i][j] = '0';
-          } else if (input_one[i][j] == '0' && input_two[i][j] == '1') {
-            result[i][j] = '1';
-          } else if (input_one[i][j] == '1' && input_two[i][j] == '0') {
-            result[i][j] = '1';
-          }
-          if (print == true) {
-            System.out.print(result[i][j]);
-          }
-        }
+    if (print == true) {
+      System.out.println("added value:");
+      for (int j = 0; j < input_one.length; j++) {
+        System.out.println(result[j]);
       }
+      System.out.println("\n");
     }
-    if (print == true) {
-      System.out.print("\n");
-    }
+
     return result;
   }
 
@@ -175,21 +161,24 @@ public class Main {
       binary_string[i] = new String(binary[i]);
     }
 
-    int[] decimal = new int[binary_string.length]; 
+    int[] decimal = new int[binary_string.length];
 
     for (int j = 0; j < binary_string.length; j++) {
       decimal[j] = Integer.parseInt(binary_string[j], 2);
     }
 
     if (print == true) {
+      System.out.println("decimal value:");
       for (int k = 0; k < decimal.length; k++) {
-        System.out.println(decimal[k]);
+        System.out.print(decimal[k] + " ");
       }
+      System.out.println("\n");
     }
     return decimal;
   }
 
-  public static void hsah(String data, Boolean print_inputs, Boolean print_xor, Boolean print_shift) {
+  public static void hsah(String data, Boolean print_inputs, Boolean print_xor, Boolean print_shift,
+      Boolean print_decimals, Boolean print_added_results) {
     // first set of data to be hashed
     char[][] input_one = init_values(data, print_inputs);
 
@@ -199,8 +188,8 @@ public class Main {
     char[][] input_four = init_values("jkasdhh2ndin", print_inputs);
 
     char[][] xor_result = xor(input_one, input_two, 1, print_xor);
-    xor_result = xor(input_one, input_three, 1, print_xor);
-    xor_result = xor(input_one, input_four, 1, print_xor);
+    xor_result = xor(xor_result, input_three, 1, print_xor);
+    xor_result = xor(xor_result, input_four, 1, print_xor);
 
     if (print_xor == true) {
       for (int m = 0; m < xor_result.length; m++) {
@@ -211,7 +200,13 @@ public class Main {
 
     char[][] shift_result = shift(xor_result, 1, print_shift);
 
-    int[] decimal_values = decimal_conversion(shift_result, true);
+    int[] input_numeric_value = decimal_conversion(shift_result, print_decimals);
+    int[] input_numeric_value_two = decimal_conversion(init_values("823b4erhdsa8ufnb", print_inputs), print_decimals);
+    int[] input_numeric_value_three = decimal_conversion(init_values("823b4erhdsa8ufnb", print_inputs), print_decimals);
+    int[] input_numeric_value_four = decimal_conversion(xor_result, print_decimals);
 
+    int[] added_values = add(input_numeric_value, input_numeric_value_two, print_added_results);
+    added_values = add(added_values, input_numeric_value_three, print_added_results);
+    added_values = add(added_values, input_numeric_value_four, print_added_results);
   };
 }
