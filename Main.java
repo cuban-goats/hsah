@@ -177,16 +177,22 @@ public class Main {
     return result;
   }
 
-  public static int[] modulo(int[] input_one, int[] input_two, Boolean print) {
+  public static int[] modified_modulo(int[] input_one, int[] input_two, int number, Boolean print) {
     int[] result = new int[input_one.length];
 
     for (int i = 0; i < input_one.length; i++) {
-      result[i] = input_one[i] % input_two[i];
+      if ((input_one[i] != 0) && (input_two[i] != 0)) {
+        result[i] = (input_one[i] % input_two[i]) + number;
+      } else {
+        input_one[i] = input_one[i] + number;
+        input_two[i] = input_two[i] + number;
+        result[i] = (input_one[i] % input_two[i]) + number;
+      }
     }
 
     if (print == true) {
-      System.out.println("modulo value:");
-      for (int j = 0; j < input_one.length; j++) {
+      System.out.println("modified modulo value:");
+      for (int j = 0; j < result.length; j++) {
         System.out.print(result[j] + " ");
       }
       System.out.println("\n");
@@ -220,18 +226,21 @@ public class Main {
     char[][] shift_result = shift(xor_result, 8, print_shift);
 
     int[] input_numeric_value = decimal_conversion(shift_result, print_decimals);
-    int[] input_numeric_value_two = decimal_conversion(init_values("823b4erhdsa8ufnb", print_inputs), print_decimals);
-    int[] input_numeric_value_three = decimal_conversion(init_values("823b4erhdsa8ufnb", print_inputs), print_decimals);
-    int[] input_numeric_value_four = decimal_conversion(xor_result, print_decimals);
+    int[] input_numeric_value_two = decimal_conversion(init_values("ds7basdjfgh7d", print_inputs), print_decimals);
+    int[] input_numeric_value_three = decimal_conversion(init_values("982hejhdsabfn", print_inputs), print_decimals);
+    int[] input_numeric_value_four = decimal_conversion(init_values("897h32jk1n0d*", print_inputs), print_decimals);
+    int[] input_numeric_value_five = decimal_conversion(xor_result, print_decimals);
 
     int[] added_values = add(input_numeric_value, input_numeric_value_two, print_added_results);
     added_values = add(added_values, input_numeric_value_three, print_added_results);
     added_values = add(added_values, input_numeric_value_four, print_added_results);
+    added_values = add(added_values, input_numeric_value_five, print_added_results);
 
-    int[] modulo_values = modulo(input_numeric_value, input_numeric_value_two, print_modulo);
-    modulo_values = modulo(modulo_values, input_numeric_value_two, print_modulo);
-    modulo_values = modulo(modulo_values, input_numeric_value_three, print_modulo);
-    modulo_values = modulo(modulo_values, input_numeric_value_four, print_modulo);
-    modulo_values = modulo(modulo_values, added_values, print_modulo);
+    int[] modulo_values = modified_modulo(input_numeric_value, input_numeric_value_two, 999, print_modulo);
+    modulo_values = modified_modulo(modulo_values, input_numeric_value_two, 999, print_modulo);
+    modulo_values = modified_modulo(modulo_values, input_numeric_value_three, 999, print_modulo);
+    modulo_values = modified_modulo(modulo_values, input_numeric_value_four, 999, print_modulo);
+    modulo_values = modified_modulo(modulo_values, input_numeric_value_five, 999, print_modulo);
+    modulo_values = modified_modulo(modulo_values, added_values, 999, print_modulo);
   };
 }
