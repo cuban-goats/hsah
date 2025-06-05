@@ -1,6 +1,8 @@
+import java.util.Arrays;
+
 public class Main {
   public static void main(String[] args) {
-    hsah("HsahhsahHsahhsah", false, false, false, false, true, true);
+    hsah("HsahhsahHsahhsah", false, false, false, false, false, true);
   } // end of main
 
   public static String binary_conversion(String input) {
@@ -63,6 +65,11 @@ public class Main {
       System.out.println("\n");
     }
     return decimal;
+  }
+
+  public static String string_conversion(int[] integer_array) {
+    String string_value = Arrays.toString(integer_array);
+    return string_value;
   }
 
   public static char[][] xor(char[][] input_one, char[][] input_two, int number, Boolean print) {
