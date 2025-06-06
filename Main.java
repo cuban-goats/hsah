@@ -14,14 +14,20 @@ public class Main {
     return result.toString();
   }
 
-  public static String adjust_size(String converted) {
-    StringBuilder adjusted = new StringBuilder().append(converted);
-    if (converted.length() < 128) {
-      while (adjusted.length() < 128) {
-        adjusted.append("0");
+  public static String adjust_size(String binary_string) {
+    StringBuilder adjusted_binary_string_builder = new StringBuilder().append(binary_string);
+    String adjusted_binary_string = adjusted_binary_string_builder.toString();
+    if (binary_string.length() < 128) {
+      while (adjusted_binary_string_builder.length() < 128) {
+        adjusted_binary_string_builder.append("0");
+      }
+      adjusted_binary_string = adjusted_binary_string_builder.toString();
+    } else if (binary_string.length() > 128) {
+      while (adjusted_binary_string.length() > 128) {
+        adjusted_binary_string = adjusted_binary_string.substring(0, adjusted_binary_string.length() - 1);
       }
     }
-    return adjusted.toString();
+    return adjusted_binary_string;
   }
 
   public static String[] split(String adjusted) {
@@ -69,6 +75,8 @@ public class Main {
 
   public static String string_conversion(int[] integer_array) {
     String string_value = Arrays.toString(integer_array);
+    string_value = string_value.replace("[", "").replace("]", "").replace(",", "").replace(" ", "");
+    System.out.println("String value: \n" + string_value + "\n");
     return string_value;
   }
 
@@ -136,11 +144,13 @@ public class Main {
 
   public static char[][] init_values(String data, Boolean print) {
     String output = binary_conversion(data);
+    if (print == true) {
+      System.out.println("\nunadjusted_string:\n" + output + "\n");
+    }
     output = adjust_size(output);
 
     if (print == true) {
-      System.out.println(output + "\n" + "Length:" + "\n" + output.length());
-      System.out.println("\n");
+      System.out.println("adjusted_binary_string\n" + output + "\nLength:\n" + output.length() + "\n");
     }
     String[] output_list = split(output);
 
@@ -154,9 +164,6 @@ public class Main {
 
     if (print == true) {
       System.out.print("\n");
-    }
-
-    if (print == true) {
       for (int i = 0; i < input.length; i++) {
         for (int j = 0; j < input[i].length; j++) {
           System.out.print(input[i][j]);
@@ -249,5 +256,8 @@ public class Main {
     modulo_values = modified_modulo(modulo_values, input_numeric_value_four, 999, print_modulo);
     modulo_values = modified_modulo(modulo_values, input_numeric_value_five, 999, print_modulo);
     modulo_values = modified_modulo(modulo_values, added_values, 999, print_modulo);
+
+    String string_mod_values = string_conversion(modulo_values);
+    char[][] binary_values = init_values(string_mod_values, print_inputs);
   };
 }
