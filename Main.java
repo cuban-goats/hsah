@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class Main {
   public static void main(String[] args) {
-    hsah("HsahhsahHsahhsah", false, false, false, false, false, true);
+    hsah("982hqdjkhfhsjksdf8aedhfdksafzh7dasfbb", false, false, false, false, false, true);
   } // end of main
 
   public static String binary_conversion(String input) {
@@ -12,6 +12,22 @@ public class Main {
       result.append(String.format("%8s", Integer.toBinaryString(aCHar)).replaceAll(" ", "0"));
     }
     return result.toString();
+  }
+
+  public static void prepare_size(String input) {
+    StringBuilder input_string_builder = new StringBuilder().append(input);
+    while ((input.length() % 128) != 0) {
+      input_string_builder.append("0");
+    }
+    String input_string = input_string_builder.toString();
+
+    while (input_string.length() > 128) {
+      for (int i = 1; i < (input_string.length() / 128); i++) {
+        int border_indicator = input_string.length() - (i * 128);
+        String shortened_input = input_string.substring(0, border_indicator);
+        String cut_input = input_string.substring(border_indicator, input_string.length());
+      }
+    }
   }
 
   public static String adjust_size(String binary_string) {
@@ -33,14 +49,14 @@ public class Main {
   public static String[] split(String adjusted) {
     String[] split_values = new String[8];
 
-    for (int i = 0; i < 8; i++) {
-      split_values[i] = adjusted.substring(0 + (i * 16), 16 * (i + 1));
+    for (int i = 0; i < (adjusted.length() / 16); i++) {
+      split_values[i] = adjusted.substring(0 + (i * (adjusted.length() / 8)), (adjusted.length() / 8) * (i + 1));
     }
     return split_values;
   }
 
   public static char[][] convert(String[] input) {
-    char[][] new_input = new char[input.length][16];
+    char[][] new_input = new char[input.length][input[0].length()];
 
     for (int k = 0; k < new_input.length; k++) {
       for (int l = 0; l < new_input[k].length; l++) {
@@ -78,6 +94,38 @@ public class Main {
     string_value = string_value.replace("[", "").replace("]", "").replace(",", "").replace(" ", "");
     System.out.println("String value: \n" + string_value + "\n");
     return string_value;
+  }
+
+  public static char[][] init_values(String data, Boolean print) {
+    String output = binary_conversion(data);
+    if (print == true) {
+      System.out.println("\nunadjusted_string:\n" + output + "\n");
+    }
+    output = adjust_size(output);
+
+    if (print == true) {
+      System.out.println("adjusted_binary_string\n" + output + "\nLength:\n" + output.length() + "\n");
+    }
+    String[] output_list = split(output);
+
+    if (print == true) {
+      for (int k = 0; k < output_list.length; k++) {
+        System.out.println(output_list[k]);
+      }
+      System.out.println("\n");
+    }
+    char[][] input = convert(output_list);
+
+    if (print == true) {
+      System.out.print("\n");
+      for (int i = 0; i < input.length; i++) {
+        for (int j = 0; j < input[i].length; j++) {
+          System.out.print(input[i][j]);
+        }
+      }
+      System.out.print("\n");
+    }
+    return input;
   }
 
   public static char[][] xor(char[][] input_one, char[][] input_two, int number, Boolean print) {
@@ -140,38 +188,6 @@ public class Main {
     }
 
     return output;
-  }
-
-  public static char[][] init_values(String data, Boolean print) {
-    String output = binary_conversion(data);
-    if (print == true) {
-      System.out.println("\nunadjusted_string:\n" + output + "\n");
-    }
-    output = adjust_size(output);
-
-    if (print == true) {
-      System.out.println("adjusted_binary_string\n" + output + "\nLength:\n" + output.length() + "\n");
-    }
-    String[] output_list = split(output);
-
-    if (print == true) {
-      for (int k = 0; k < output_list.length; k++) {
-        System.out.println(output_list[k]);
-      }
-      System.out.println("\n");
-    }
-    char[][] input = convert(output_list);
-
-    if (print == true) {
-      System.out.print("\n");
-      for (int i = 0; i < input.length; i++) {
-        for (int j = 0; j < input[i].length; j++) {
-          System.out.print(input[i][j]);
-        }
-      }
-      System.out.print("\n");
-    }
-    return input;
   }
 
   public static int[] add(int[] input_one, int[] input_two, Boolean print) {
