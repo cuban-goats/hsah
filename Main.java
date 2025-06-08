@@ -51,7 +51,8 @@ public class Main {
       for (int i = 0; i < ((static_input_string.length()) / 128); i++) {
         System.out.println("\nlength of the string: " + input_string.length());
         // indicator where the input is split
-        static_border_indicator = static_input_string.length() - ((i) * 128);
+        static_border_indicator = static_input_string.length() - (i * 128);
+        int border_indicator = static_border_indicator + (i * 128);
 
         System.out.println("\ni: " + i + "\nborder inidcator: " + static_border_indicator);
 
