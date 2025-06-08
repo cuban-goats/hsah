@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class Main {
   public static void main(String[] args) {
-    hsah("982hqdjkhfhsjksdf8aedhfdksafzh7dasfbb", false, false, false, false, false, true);
+    hsah("982hqdjkhf78sadjfasd7fashdfjsdai7fdsajf7di8sh", false, false, false, false, false, false);
   } // end of main
 
   public static String binary_conversion(String input) {
@@ -12,22 +12,6 @@ public class Main {
       result.append(String.format("%8s", Integer.toBinaryString(aCHar)).replaceAll(" ", "0"));
     }
     return result.toString();
-  }
-
-  public static void prepare_size(String input) {
-    StringBuilder input_string_builder = new StringBuilder().append(input);
-    while ((input.length() % 128) != 0) {
-      input_string_builder.append("0");
-    }
-    String input_string = input_string_builder.toString();
-
-    while (input_string.length() > 128) {
-      for (int i = 1; i < (input_string.length() / 128); i++) {
-        int border_indicator = input_string.length() - (i * 128);
-        String shortened_input = input_string.substring(0, border_indicator);
-        String cut_input = input_string.substring(border_indicator, input_string.length());
-      }
-    }
   }
 
   public static String adjust_size(String binary_string) {
@@ -44,6 +28,47 @@ public class Main {
       }
     }
     return adjusted_binary_string;
+  }
+
+  public static char[][] prepare_size(String input, Boolean print) {
+    // adjust size
+    StringBuilder input_string_builder = new StringBuilder().append(input);
+    while ((input_string_builder.length() % 128) != 0) {
+      input_string_builder.append("0");
+    }
+    String static_input_string = input_string_builder.toString();
+    String input_string = static_input_string;
+
+    // first 128 bits of the input
+    String base = static_input_string.substring(0, 127);
+    // array of 16 * 8 Bits
+    char[][] base_chars = init_values(base, false);
+
+    int static_border_indicator = static_input_string.length();
+    // length of input string is n*128
+    while (input_string.length() > 128) {
+
+      for (int i = 0; i < ((static_input_string.length()) / 128); i++) {
+        System.out.println("\nlength of the string: " + input_string.length());
+        // indicator where the input is split
+        static_border_indicator = static_input_string.length() - ((i) * 128);
+
+        System.out.println("\ni: " + i + "\nborder inidcator: " + static_border_indicator);
+
+        input_string = static_input_string.substring(0, static_border_indicator);
+        System.out.println("\ninput string:\n" + input_string);
+
+        String cut_input = static_input_string.substring(static_border_indicator, static_input_string.length());
+        System.out.println("\ncut input:\n" + cut_input + "\n");
+
+        char[][] cut_input_chars = init_values(cut_input, false);
+
+        base_chars = xor(base_chars, cut_input_chars, 1, true);
+        System.out.println(
+            "\n----------------------------------------------------------------------------------------------------------------\n");
+      }
+    }
+    return base_chars;
   }
 
   public static String[] split(String adjusted) {
@@ -92,7 +117,7 @@ public class Main {
   public static String string_conversion(int[] integer_array) {
     String string_value = Arrays.toString(integer_array);
     string_value = string_value.replace("[", "").replace("]", "").replace(",", "").replace(" ", "");
-    System.out.println("String value: \n" + string_value + "\n");
+    // System.out.println("String value: \n" + string_value + "\n");
     return string_value;
   }
 
@@ -131,7 +156,7 @@ public class Main {
   public static char[][] xor(char[][] input_one, char[][] input_two, int number, Boolean print) {
     char[][] result = new char[input_one.length][input_one[0].length];
     if (print == true) {
-      System.out.print("\n XOR result: \n");
+      System.out.print("\nXOR result: \n");
     }
 
     if (input_one.length == input_two.length) {
@@ -235,6 +260,16 @@ public class Main {
   public static void hsah(String data, Boolean print_inputs, Boolean print_xor, Boolean print_shift,
       Boolean print_decimals, Boolean print_added_results, Boolean print_modulo) {
     // first set of data to be hashed
+    char[][] result = prepare_size(
+        "000111011001001001001000101010101010111011111110001100010101010110101010001111111010011010101011110100001000100100101010101010000001001001000010100101010001110110010010010010001010101010101110111111100011000101010100100101101100010000011100110010001111001100101000111110101010100111101010110101000000100100100001010010101000111011001001001001000101010101010111011111110001100010101010110101010001111111010011010101011110100001000100100101010101010000001001001000010100101010001110110010010010010001010101010101110111111100011000101010100100101101100010000011100110010001111001100101000111110101010100111101010110101000000100100100001010010101000111011001001001001000101010101010111011111110000101",
+        true);
+
+    System.out.print("\nPrepared value:\n");
+    for (int m = 0; m < result.length; m++) {
+      System.out.println(result[m]);
+    }
+    System.out.print("\n");
+
     char[][] input_one = init_values(data, print_inputs);
 
     // static hsahing datasets
