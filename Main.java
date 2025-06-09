@@ -1,10 +1,12 @@
+import java.awt.PrintJob;
+import java.net.ContentHandler;
 import java.util.Arrays;
 
 public class Main {
   public static void main(String[] args) {
 
     hsah("11/1234567891/234567891/23567891/234567891/23456789234567898dsafhas8dhf8", false,
-        false, false, false, true, true);
+        false, false, false, false, false);
   } // end of main
 
   public static String binary_conversion(String input) {
@@ -30,6 +32,15 @@ public class Main {
       }
     }
     return adjusted_binary_string;
+  }
+
+  public static String string_adjustment(String input) {
+    StringBuilder input_string_builder = new StringBuilder().append(input);
+    while ((input_string_builder.length() % 128) != 0) {
+      input_string_builder.append("0");
+    }
+    String output = input_string_builder.toString();
+    return output;
   }
 
   public static char[][] prepare_size(String input, Boolean print) {
@@ -97,9 +108,9 @@ public class Main {
       split_values[array_index++] = input.substring(i * 8, (i * 8) + 8);
     }
 
-    for (int i = 0; i < parts; i++) {
-      System.out.print(split_values[i] + " ");
-    }
+    // for (int i = 0; i < parts; i++) {
+    //   System.out.print(split_values[i] + " ");
+    // }
     return split_values;
   }
 
@@ -300,22 +311,16 @@ public class Main {
 
   }
 
-  public static String string_adjustment(String input) {
-    StringBuilder input_string_builder = new StringBuilder().append(input);
-    while ((input_string_builder.length() % 128) != 0) {
-      input_string_builder.append("0");
-    }
-    String output = input_string_builder.toString();
-    return output;
-  }
-
-  public static int[] characterwise_multiplication(String data) {
+  public static int[] partial_addition(String data, int[] integer_array) {
     String input = binary_conversion(data);
     input = string_adjustment(input);
-    // System.out.println(input);
     String[] full_split_input = full_split(input);
-    int[] numeric_values = {};
-    return numeric_values;
+    char[][] input_chars = convert(full_split_input);
+    int[] decimal_values = decimal_conversion(input_chars, false);
+
+    int[] numeric_result = add(integer_array, decimal_values, true);
+
+    return numeric_result;
   }
 
   public static void hsah(String data, Boolean print_inputs, Boolean print_xor, Boolean print_shift,
@@ -324,17 +329,7 @@ public class Main {
     char[][] input_one = init_binary_string_values(data);
     System.out.println("\n");
 
-    // char[][] input_one = init_values(data, false);
-    // String input_string = char_array_to_string_conversion(input_one);
-    // input_one = prepare_size(input_string, false);
-    // System.out.print("\n cut input: \n" + input_string);
-
-    // System.out.print("\n cut input value:\n");
-    // for (int m = 0; m < input_one.length; m++) {
-    // System.out.println(input_one[m]);
-    // }
-
-    // static hsahing datasets
+    // static hsahing dataset
     char[][] input_two = init_values("823b4erhdsa8ufnb", print_inputs);
 
     char[][] xor_result = xor(input_one, input_two, 1, print_xor);
@@ -357,14 +352,15 @@ public class Main {
     int[] modulo_values = modified_modulo(added_values, input_numeric_value, 10, print_modulo);
 
     int[] added_values_two = add(decimal_conversion(input_one, false), modulo_values, print_added_results);
-    System.out.println("Binary values:");
-    for (int x = 0; x < added_values_two.length; x++) {
-      System.out.print(added_values_two[x] + "\n");
-    }
+
+    // System.out.println("Binary values:");
+    // for (int x = 0; x < added_values_two.length; x++) {
+    //   System.out.print(added_values_two[x] + "\n");
+    // }
 
     String string_mod_values = string_conversion(added_values_two);
     char[][] binary_values = init_values(string_mod_values, print_inputs);
 
-    characterwise_multiplication(data);
+    partial_addition(data, added_values_two);
   };
 }
