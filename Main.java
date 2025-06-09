@@ -109,7 +109,7 @@ public class Main {
     }
 
     // for (int i = 0; i < parts; i++) {
-    //   System.out.print(split_values[i] + " ");
+    // System.out.print(split_values[i] + " ");
     // }
     return split_values;
   }
@@ -310,16 +310,19 @@ public class Main {
     return result;
 
   }
-
-  public static int[] partial_addition(String data, int[] integer_array) {
-    String input = binary_conversion(data);
+  public static int[] string_to_int_array_conversion(String string_value) {
+    String input = binary_conversion(string_value);
     input = string_adjustment(input);
     String[] full_split_input = full_split(input);
     char[][] input_chars = convert(full_split_input);
     int[] decimal_values = decimal_conversion(input_chars, false);
 
-    int[] numeric_result = add(integer_array, decimal_values, true);
+    return decimal_values;
+  }
 
+  public static int[] partial_addition(String data, int[] integer_array) {
+    int[] decimal_values = string_to_int_array_conversion(data);
+    int[] numeric_result = add(integer_array, decimal_values, true);
     return numeric_result;
   }
 
@@ -355,7 +358,7 @@ public class Main {
 
     // System.out.println("Binary values:");
     // for (int x = 0; x < added_values_two.length; x++) {
-    //   System.out.print(added_values_two[x] + "\n");
+    // System.out.print(added_values_two[x] + "\n");
     // }
 
     String string_mod_values = string_conversion(added_values_two);
