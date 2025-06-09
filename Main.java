@@ -1,4 +1,5 @@
 import java.awt.PrintJob;
+import java.lang.reflect.Array;
 import java.net.ContentHandler;
 import java.util.Arrays;
 
@@ -310,6 +311,7 @@ public class Main {
     return result;
 
   }
+
   public static int[] string_to_int_array_conversion(String string_value) {
     String input = binary_conversion(string_value);
     input = string_adjustment(input);
@@ -322,7 +324,15 @@ public class Main {
 
   public static int[] partial_addition(String data, int[] integer_array) {
     int[] decimal_values = string_to_int_array_conversion(data);
-    int[] numeric_result = add(integer_array, decimal_values, true);
+    int part_length = 8;
+    int full_length = decimal_values.length;
+    int[] numeric_result = Arrays.copyOf(integer_array, integer_array.length);
+    for (int i = full_length; i > 0; i -= part_length) {
+      int start = Math.max(i - part_length, 0);
+      int end = i;
+      int[] part = Arrays.copyOfRange(decimal_values, start, end);
+      numeric_result = add(part, numeric_result, true);
+    }
     return numeric_result;
   }
 
