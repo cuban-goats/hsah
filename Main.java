@@ -48,18 +48,18 @@ public class Main {
     // length of input string is n*128
     while (input_string.length() > 128) {
 
-      for (int i = 0; i < ((static_input_string.length()) / 128); i++) {
+      for (int i = 1; i < ((static_input_string.length() / 128)); i++) {
         System.out.println("\nlength of the string: " + input_string.length());
         // indicator where the input is split
         static_border_indicator = static_input_string.length() - (i * 128);
-        int border_indicator = static_border_indicator + (i * 128);
+        int border_indicator = static_input_string.length() - (i * 128 - 128);
 
         System.out.println("\ni: " + i + "\nborder inidcator: " + static_border_indicator);
 
         input_string = static_input_string.substring(0, static_border_indicator);
         System.out.println("\ninput string:\n" + input_string);
 
-        String cut_input = static_input_string.substring(static_border_indicator, static_input_string.length());
+        String cut_input = static_input_string.substring(static_border_indicator, border_indicator);
         System.out.println("\ncut input:\n" + cut_input + "\n");
 
         char[][] cut_input_chars = init_values(cut_input, false);
