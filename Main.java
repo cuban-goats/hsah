@@ -37,13 +37,13 @@ public class Main {
       input_string_builder.append("0");
     }
     String static_input_string = input_string_builder.toString();
-    System.out.println(static_input_string);
+    // System.out.println(static_input_string);
     String input_string = static_input_string;
 
     // first 128 bits of the input
     String base = static_input_string.substring(0, 127);
     // array of 16 * 8 Bits NOTE: "0" != 0 && "1" != 1
-    char[][] base_chars = init_values("Base93j3983jjd98ajs", true);
+    char[][] base_chars = init_values(false, base, false);
 
     // System.out.println("\nBase: \n");
     // for (int i = 0; i < base_chars.length; i++) {
@@ -55,7 +55,7 @@ public class Main {
     while (input_string.length() > 128) {
 
       for (int i = 0; i <= ((static_input_string.length() / 128)); i++) {
-        System.out.println("\nlength of the string: " + input_string.length());
+        // System.out.println("\nlength of the string: " + input_string.length());
         // indicator where the input is split
         static_border_indicator = static_input_string.length() - (i * 128);
         int border_indicator = static_input_string.length();
@@ -64,19 +64,19 @@ public class Main {
         } else {
           border_indicator = static_input_string.length() - (i * 128);
         }
-        System.out.println("\ni: " + i + "\nborder inidcator: " + static_border_indicator);
+        // System.out.println("\ni: " + i + "\nborder inidcator: " +
+        // static_border_indicator);
 
         input_string = static_input_string.substring(0, static_border_indicator);
-        System.out.println("\ninput string:\n" + input_string);
+        // System.out.println("\ninput string:\n" + input_string);
 
         String cut_input = static_input_string.substring(static_border_indicator, border_indicator);
-        System.out.println("\ncut input:\n" + cut_input + "\n");
+        // System.out.println("\ncut input:\n" + cut_input + "\n");
 
-        char[][] cut_input_chars = init_values(cut_input, false);
+        char[][] cut_input_chars = init_values(true, cut_input, false);
 
-        base_chars = xor(base_chars, cut_input_chars, 1, false);
-        System.out.println(
-            "\n----------------------------------------------------------------------------------------------------------------\n");
+        base_chars = xor(base_chars, cut_input_chars, 1, true);
+        // System.out.println("\n----------------------------------------------------------------------------------------------------------------\n");
       }
     }
     return base_chars;
@@ -132,8 +132,12 @@ public class Main {
     return string_value;
   }
 
-  public static char[][] init_values(String data, Boolean print) {
-    String output = binary_conversion(data);
+  public static char[][] init_values(Boolean convert, String data, Boolean print) {
+    String output = data;
+
+    if (convert == true) {
+      output = binary_conversion(data);
+    }
     if (print == true) {
       System.out.println("\nunadjusted_string:\n" + output + "\n");
     }
@@ -272,7 +276,7 @@ public class Main {
       Boolean print_decimals, Boolean print_added_results, Boolean print_modulo) {
     // first set of data to be hashed
     char[][] result = prepare_size(
-        "1000010000001001001000010100101010001110110010010010010001010101010101110111111100011000101010100100101101100010000011100110010001111001100101000111110101010100111101010110101000000100100100001010010101000111011001001001001000101010101010111011111110000101001001001000010100101010001110110010010010010001010101010101110111111100011000101010100100101101100010000011100110010001111001100101000111110101010100111101010110101000000100100100001010010101000111011001001001001000101010101010111011111110000101",
+        "10000100000010010010000101001010100011101100100100100100010101010101011101111111000110001010101001001011011000100000111001100100011110011001010001111101010101001111010101101010000001001001000010100101010001110110010010010010001010101010101110111111100001010010010010000101001010100011101100100100100100010101010101011101111111000110001010101001001011011000100000111001100100011110011001010001111101010101001111010101101010000001001001000010100101010001110110010010010010001010101010101110111111100001011000010000001001001000010100101010001110110010010010010001010101010101110111111100011000101010100100101101100010000011100110010001111001100101000111110101010100111101010110101000000100100100001010010101000111011001001001001000101010101010111011111110000101001001001000010100101010001110110010010010010001010101010101110111111100011000101010100100101101100010000011100110010001111001100101000111110101010100111101010110101000000100100100001010010101000111011001001001001000101010101010111011111110000101",
         true);
 
     System.out.print("\nPrepared value:\n");
@@ -281,12 +285,12 @@ public class Main {
     }
     System.out.print("\n");
 
-    char[][] input_one = init_values(data, print_inputs);
+    char[][] input_one = init_values(true, data, print_inputs);
 
     // static hsahing datasets
-    char[][] input_two = init_values("823b4erhdsa8ufnb", print_inputs);
-    char[][] input_three = init_values("lköwrienheß", print_inputs);
-    char[][] input_four = init_values("jkasdhh2ndin", print_inputs);
+    char[][] input_two = init_values(true, "823b4erhdsa8ufnb", print_inputs);
+    char[][] input_three = init_values(true, "lköwrienheß", print_inputs);
+    char[][] input_four = init_values(true, "jkasdhh2ndin", print_inputs);
 
     char[][] xor_result = xor(input_one, input_two, 1, print_xor);
     xor_result = xor(xor_result, input_three, 1, print_xor);
@@ -302,9 +306,12 @@ public class Main {
     char[][] shift_result = shift(xor_result, 8, print_shift);
 
     int[] input_numeric_value = decimal_conversion(shift_result, print_decimals);
-    int[] input_numeric_value_two = decimal_conversion(init_values("ds7basdjfgh7d", print_inputs), print_decimals);
-    int[] input_numeric_value_three = decimal_conversion(init_values("982hejhdsabfn", print_inputs), print_decimals);
-    int[] input_numeric_value_four = decimal_conversion(init_values("897h32jk1n0d*", print_inputs), print_decimals);
+    int[] input_numeric_value_two = decimal_conversion(init_values(true, "ds7basdjfgh7d", print_inputs),
+        print_decimals);
+    int[] input_numeric_value_three = decimal_conversion(init_values(true, "982hejhdsabfn", print_inputs),
+        print_decimals);
+    int[] input_numeric_value_four = decimal_conversion(init_values(true, "897h32jk1n0d*", print_inputs),
+        print_decimals);
     int[] input_numeric_value_five = decimal_conversion(xor_result, print_decimals);
 
     int[] added_values = add(input_numeric_value, input_numeric_value_two, print_added_results);
@@ -320,6 +327,6 @@ public class Main {
     modulo_values = modified_modulo(modulo_values, added_values, 999, print_modulo);
 
     String string_mod_values = string_conversion(modulo_values);
-    char[][] binary_values = init_values(string_mod_values, print_inputs);
+    char[][] binary_values = init_values(true, string_mod_values, print_inputs);
   };
 }
