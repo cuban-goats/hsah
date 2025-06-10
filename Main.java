@@ -2,12 +2,22 @@ import java.awt.PrintJob;
 import java.lang.reflect.Array;
 import java.net.ContentHandler;
 import java.util.Arrays;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Main {
   public static void main(String[] args) {
 
-    hsah("11/1234567891/234567891/23567891/234567891/23456789234567898dsafhas8dhf8", false,
-        false, false, false, false, false);
+    String hsahed_value = hsah(
+        "oworldddddddda09sfuasdijkaa*++++****ofidazfafhjsfi7hajadshf",
+        false, false, false, false, false, false);
+    String hsahed_value_two = hsah(
+        "Hellowor33ddsadlifa78h7777WW%%%S%&&S&Aadzsadghjasdd~~~~a",
+        false, false, false, false, false, false);
+    String hsahed_value_three = hsah(
+        "7737das(((22929??ß11¹¹¹adjuaifjdasofhjliduasiohudsalfahsdfuzdasfhjasdfdsafasdfaew",
+        false, false, false, false, false, false);
   } // end of main
 
   public static String binary_conversion(String input) {
@@ -81,6 +91,8 @@ public class Main {
         // System.out.println("\ncut input:\n" + cut_input + "\n");
 
         char[][] cut_input_chars = init_values(cut_input, false);
+        cut_input_chars = shift(cut_input_chars, 10, false);
+        base_chars = shift(base_chars, 10, false);
 
         base_chars = xor(base_chars, cut_input_chars, 1, false);
         // System.out.println(
@@ -171,8 +183,13 @@ public class Main {
 
   public static char[][] init_binary_string_values(String data) {
     String input = binary_conversion(data);
+    // System.out.println("\nunprepared input after binary conversion:\n");
+    // System.out.println(input);
     char[][] output_chars = prepare_size(input, false);
-
+    // System.out.println("\n output_chars from prepare_size: \n");
+    for (int i = 0; i < output_chars.length; i++) {
+      // System.out.println(output_chars[i]);
+    }
     return output_chars;
   }
 
@@ -331,12 +348,27 @@ public class Main {
       int start = Math.max(i - part_length, 0);
       int end = i;
       int[] part = Arrays.copyOfRange(decimal_values, start, end);
-      numeric_result = add(part, numeric_result, true);
+      for (int j = 0; j < 1; j++) {
+        numeric_result = add(part, numeric_result, false);
+      }
+      numeric_result = add(part, numeric_result, false);
     }
     return numeric_result;
   }
 
-  public static void hsah(String data, Boolean print_inputs, Boolean print_xor, Boolean print_shift,
+  public static void write_to_file(String data) {
+    try {
+      BufferedWriter output_file = new BufferedWriter(new FileWriter("outputHash.txt", true));
+      output_file.write(data + "\n\n");
+      output_file.close();
+      System.out.println("Successfully wrote to the file.");
+    } catch (IOException e) {
+      System.out.println("An error occurred.");
+      e.printStackTrace();
+    }
+  }
+
+  public static String hsah(String data, Boolean print_inputs, Boolean print_xor, Boolean print_shift,
       Boolean print_decimals, Boolean print_added_results, Boolean print_modulo) {
     // first set of data to be hashed
     char[][] input_one = init_binary_string_values(data);
@@ -371,9 +403,14 @@ public class Main {
     // System.out.print(added_values_two[x] + "\n");
     // }
 
+    added_values_two = partial_addition(data, added_values_two);
     String string_mod_values = string_conversion(added_values_two);
-    char[][] binary_values = init_values(string_mod_values, print_inputs);
-
-    partial_addition(data, added_values_two);
+    System.out.println("\n");
+    char[][] shifting_values = init_binary_string_values(string_mod_values);
+    System.out.println("\nResult values: \n");
+    String result = binary_conversion(string_conversion(decimal_conversion(shifting_values, false)));
+    write_to_file(result);
+    System.out.println(result);
+    return result;
   };
 }
