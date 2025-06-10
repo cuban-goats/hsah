@@ -1,7 +1,9 @@
 import java.awt.PrintJob;
 import java.lang.reflect.Array;
+import java.math.BigInteger;
 import java.net.ContentHandler;
 import java.util.Arrays;
+import java.util.function.ToIntFunction;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +12,7 @@ public class Main {
   public static void main(String[] args) {
 
     String hsahed_value = hsah(
-        "oworldddddddda09sfuasdijkaa*++++****ofidazfafhjsfi7hajadshf",
+        "oworlddaisudhfasdf2b2i3uerhedawkfkjdsfkjasdbfasiudfbkasdfhuwfknbdsfasflhwuaasdklfhjkasddddddda09sfuasdijkaa*++++****ofidazfafhjsfi7hajadshf",
         false, false, false, false, false, false);
     String hsahed_value_two = hsah(
         "Hellowor33ddsadlifa78h7777WW%%%S%&&S&Aadzsadghjasdd~~~~a",
@@ -356,6 +358,15 @@ public class Main {
     return numeric_result;
   }
 
+  public static String integer_size_increase(String input) {
+    BigInteger number = new BigInteger(input);
+    BigInteger limit = BigInteger.valueOf(2).pow(256);
+    while (number.compareTo(limit) < 0) {
+      number = number.add(number);
+    }
+    return number.toString();
+  }
+
   public static void write_to_file(String data) {
     try {
       BufferedWriter output_file = new BufferedWriter(new FileWriter("outputHash.txt", true));
@@ -408,7 +419,8 @@ public class Main {
     System.out.println("\n");
     char[][] shifting_values = init_binary_string_values(string_mod_values);
     System.out.println("\nResult values: \n");
-    String result = binary_conversion(string_conversion(decimal_conversion(shifting_values, false)));
+    String result = string_conversion(decimal_conversion(shifting_values, false));
+    result = integer_size_increase(result);
     write_to_file(result);
     System.out.println(result);
     return result;
