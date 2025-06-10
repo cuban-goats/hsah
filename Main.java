@@ -57,14 +57,12 @@ public class Main {
   }
 
   public static char[][] prepare_size(String input, Boolean print) {
-    // System.out.println("New Input:\n" + input + "\n");
     // adjust size
     StringBuilder input_string_builder = new StringBuilder().append(input);
     while ((input_string_builder.length() % 128) != 0) {
       input_string_builder.append("0");
     }
     String static_input_string = input_string_builder.toString();
-    // System.out.println(static_input_string);
     String input_string = static_input_string;
 
     // first 128 bits of the input
@@ -87,18 +85,14 @@ public class Main {
         // static_border_indicator);
 
         input_string = static_input_string.substring(0, static_border_indicator);
-        // System.out.println("\ninput string:\n" + input_string);
 
         String cut_input = static_input_string.substring(static_border_indicator, border_indicator);
-        // System.out.println("\ncut input:\n" + cut_input + "\n");
 
         char[][] cut_input_chars = init_values(cut_input, false);
         cut_input_chars = shift(cut_input_chars, 10, false);
         base_chars = shift(base_chars, 10, false);
 
         base_chars = xor(base_chars, cut_input_chars, 1, false);
-        // System.out.println(
-        // "\n----------------------------------------------------------------------------------------------------------------\n");
       }
     }
     return base_chars;
@@ -408,11 +402,6 @@ public class Main {
     int[] modulo_values = modified_modulo(added_values, input_numeric_value, 10, print_modulo);
 
     int[] added_values_two = add(decimal_conversion(input_one, false), modulo_values, print_added_results);
-
-    // System.out.println("Binary values:");
-    // for (int x = 0; x < added_values_two.length; x++) {
-    // System.out.print(added_values_two[x] + "\n");
-    // }
 
     added_values_two = partial_addition(data, added_values_two);
     String string_mod_values = string_conversion(added_values_two);
