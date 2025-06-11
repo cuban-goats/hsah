@@ -354,11 +354,23 @@ public class Main {
 
   public static String integer_size_increase(String input) {
     BigInteger number = new BigInteger(input);
-    BigInteger limit = BigInteger.valueOf(2).pow(256);
+    BigInteger limit = BigInteger.valueOf(2).pow(1024);
     while (number.compareTo(limit) < 0) {
       number = number.add(number);
     }
+    String number_string = number.toString();
+    number_string = number_string.substring(number_string.length() - 308, number_string.length());
     return number.toString();
+  }
+
+  public static String increase_loop(String input, String data) {
+    int rounds = data.length();
+    String output = input.substring(input.length() - 64, input.length());
+    for (int i = 0; i < rounds; i++) {
+      output = input.substring(output.length() - 64, output.length());
+      output = integer_size_increase(output);
+    }
+    return output;
   }
 
   public static void write_to_file(String data) {
@@ -377,8 +389,17 @@ public class Main {
       Boolean print_decimals, Boolean print_added_results, Boolean print_modulo) {
     // first set of data to be hashed
     char[][] input_one = init_binary_string_values(data);
-    System.out.println("\n");
 
+    String input_one_decimal_string = string_conversion(decimal_conversion(input_one, false));
+    input_one_decimal_string = integer_size_increase(input_one_decimal_string);
+    input_one_decimal_string = increase_loop(input_one_decimal_string, data);
+    input_one = init_binary_string_values(input_one_decimal_string);
+
+    for (int i = 0; i < input_one.length; i ++) {
+      System.out.println(input_one[i]);
+    }
+
+    System.out.println("\n" + input_one_decimal_string);
     // static hsahing dataset
     char[][] input_two = init_values("823b4erhdsa8ufnb", print_inputs);
 
@@ -404,12 +425,16 @@ public class Main {
     int[] added_values_two = add(decimal_conversion(input_one, false), modulo_values, print_added_results);
 
     added_values_two = partial_addition(data, added_values_two);
+
     String string_mod_values = string_conversion(added_values_two);
-    System.out.println("\n");
+
     char[][] shifting_values = init_binary_string_values(string_mod_values);
-    System.out.println("\nResult values: \n");
+
     String result = string_conversion(decimal_conversion(shifting_values, false));
+    System.out.println("\nResult values: \n");
     result = integer_size_increase(result);
+    result = increase_loop(result, data);
+
     write_to_file(result);
     System.out.println(result);
     return result;
