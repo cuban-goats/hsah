@@ -12,16 +12,7 @@ import java.io.IOException;
 
 public class HsahingClass {
   public static void main(String[] args) {
-
-    String hsahed_value = hsah(
-        "EelloWorld",
-        false, false, false, false, false, false);
-    String hsahed_value_two = hsah(
-        "HHellowordde",
-        false, false, false, false, false, false);
-    String hsahed_value_three = hsah(
-        "HelloWorld",
-        false, false, false, false, false, false);
+    // String hash = hsah("ais8dfahdswfi7asfghasdjfz7iasdhfjashfkdusafzhufasjdhf");
   } // end of main
 
   public static String binary_conversion(String input) {
@@ -378,7 +369,7 @@ public class HsahingClass {
   public static void write_to_file(String data) {
     try {
       BufferedWriter output_file = new BufferedWriter(new FileWriter("outputHash.txt", true));
-      output_file.write(data + "\n\n");
+      output_file.write(data + "\n");
       output_file.close();
       System.out.println("Successfully wrote to the file.");
     } catch (IOException e) {
@@ -387,8 +378,13 @@ public class HsahingClass {
     }
   }
 
-  public static String hsah(String data, Boolean print_inputs, Boolean print_xor, Boolean print_shift,
-      Boolean print_decimals, Boolean print_added_results, Boolean print_modulo) {
+  public static String hsah(String data) {
+    Boolean print_inputs = false;
+    Boolean print_xor = false;
+    Boolean print_shift = false;
+    Boolean print_decimals = false;
+    Boolean print_added_results = false;
+    Boolean print_modulo = false;
     // first set of data to be hashed
     char[][] input_one = init_binary_string_values(data);
 
@@ -398,7 +394,7 @@ public class HsahingClass {
     input_one = init_binary_string_values(input_one_decimal_string);
 
     // for (int i = 0; i < input_one.length; i ++) {
-    //   System.out.println(input_one[i]);
+    // System.out.println(input_one[i]);
     // }
 
     // static hsahing dataset

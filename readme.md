@@ -1,2 +1,5 @@
 ## simple hashing algorythm
-- written in java
+
+## simple prng using hsah
+
+## simple trng using hsah
