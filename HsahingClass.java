@@ -8,17 +8,17 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class Main {
+public class HsahingClass {
   public static void main(String[] args) {
 
     String hsahed_value = hsah(
-        "oworlddaisudhfasdf2b2i3uerhedawkfkjdsfkjasdbfasiudfbkasdfhuwfknbdsfasflhwuaasdklfhjkasddddddda09sfuasdijkaa*++++****ofidazfafhjsfi7hajadshf",
+        "EelloWorld",
         false, false, false, false, false, false);
     String hsahed_value_two = hsah(
-        "Hellowor33ddsadlifa78h7777WW%%%S%&&S&Aadzsadghjasdd~~~~a",
+        "HHellowordde",
         false, false, false, false, false, false);
     String hsahed_value_three = hsah(
-        "7737das(((22929??ß11¹¹¹adjuaifjdasofhjliduasiohudsalfahsdfuzdasfhjasdfdsafasdfaew",
+        "HelloWorld",
         false, false, false, false, false, false);
   } // end of main
 
@@ -399,7 +399,6 @@ public class Main {
       System.out.println(input_one[i]);
     }
 
-    System.out.println("\n" + input_one_decimal_string);
     // static hsahing dataset
     char[][] input_two = init_values("823b4erhdsa8ufnb", print_inputs);
 
