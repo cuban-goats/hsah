@@ -1,3 +1,5 @@
+package crypt;
+
 import java.awt.PrintJob;
 import java.lang.reflect.Array;
 import java.math.BigInteger;
@@ -395,9 +397,9 @@ public class HsahingClass {
     input_one_decimal_string = increase_loop(input_one_decimal_string, data);
     input_one = init_binary_string_values(input_one_decimal_string);
 
-    for (int i = 0; i < input_one.length; i ++) {
-      System.out.println(input_one[i]);
-    }
+    // for (int i = 0; i < input_one.length; i ++) {
+    //   System.out.println(input_one[i]);
+    // }
 
     // static hsahing dataset
     char[][] input_two = init_values("823b4erhdsa8ufnb", print_inputs);
