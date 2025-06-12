@@ -65,9 +65,8 @@ public class PrngClass {
   public static String[] random_hash_generator(String[] random) {
     String[] hashed_value = random;
     for (int i = 0; i < hashed_value.length; i++) {
-      if (hashed_value[i] != null) {
-        hashed_value[i] = HsahingClass.hsah("prng_hashes.txt", hashed_value[i]);
-      }
+      System.out.println(hashed_value[i]);
+      hashed_value[i] = HsahingClass.hsah("prng_hashes.txt", hashed_value[i]);
     }
     return hashed_value;
   }

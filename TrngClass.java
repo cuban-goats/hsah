@@ -8,9 +8,7 @@ import crypt.HsahingClass;
 
 public class TrngClass {
   public static void main(String[] args) {
-    int[] random = extract_data("converted_image.png");
-    String random_hash = random_hash_generator(random) ;
-    // System.out.println("\n\n");
+    // System.out.println("random\n\n");
     // System.out.println(random_hash);
   }
 
@@ -41,12 +39,12 @@ public class TrngClass {
 
   public static String random_hash_generator(int[] random) {
     String[] hashed_value = int_to_string_array(random);
-    StringBuilder string_builder = new StringBuilder().append("");
+    StringBuilder string_builder = new StringBuilder().append("random");
     for (int j = 0; j < hashed_value.length; j++) {
       string_builder = string_builder.append(hashed_value[j]);
     }
     String input_value = string_builder.toString();
-    input_value = input_value.replace("[", "").replace("]", "").replace(",", "").replace(" ", "").replace("-", "");
+    input_value = input_value.replace("random[", "").replace("random]", "").replace("random,", "").replace("random ", "").replace("random-", "");
     String output_hash = HsahingClass.hsah("trng_hashes.txt", input_value);
     return output_hash;
   }

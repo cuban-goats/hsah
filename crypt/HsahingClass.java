@@ -347,22 +347,34 @@ public class HsahingClass {
 
   public static String integer_size_increase(String input) {
     BigInteger number = new BigInteger(input);
-    String snipped_string = input.substring(input.length() - Math.round(input.length() / 20), input.length());
+    int slice_length = Math.max(1, input.length() / 20);
+    String snipped_string = input.substring(input.length() - slice_length);
     BigInteger snipped_biginteger = new BigInteger(snipped_string);
-    BigInteger limit = BigInteger.valueOf(2).pow(1024);
-    while (number.compareTo(limit) < 0) {
-      number = number.add(number).add(snipped_biginteger);
-    }
+    number = number.pow(3);
+    int number_length = number.toString().length();
+    BigInteger pow_of_two = BigInteger.valueOf(2).pow(256);
+    int length_of_two_pow = pow_of_two.toString().length();
+
     String number_string = number.toString();
-    number_string = number_string.substring(number_string.length() - 309, number_string.length());
-    return number.toString();
+    StringBuilder number_string_builder = new StringBuilder().append(number_string);
+    while (number_string_builder.length() <= length_of_two_pow) {
+      number_string_builder = number_string_builder.append(1);
+    }
+    number_string = number_string_builder.toString();
+
+    if (number_string_builder.length() > length_of_two_pow) {
+      number_string = number_string_builder.toString();
+      number_string = number_string.substring(number_string_builder.length() - length_of_two_pow, number_string_builder.length());
+    }
+
+    return number_string;
   }
 
   public static String increase_loop(String input, String data) {
     int rounds = data.length();
-    String output = input.substring(input.length() - 64, input.length());
+    String output = input.substring(input.length() - 32, input.length());
     for (int i = 0; i < rounds; i++) {
-      output = input.substring(output.length() - 64, output.length());
+      output = input.substring(output.length() - 32, output.length());
       output = integer_size_increase(output);
     }
     return output;
@@ -389,6 +401,7 @@ public class HsahingClass {
     Boolean print_modulo = false;
     // first set of data to be hashed
     char[][] input_one = init_binary_string_values(data);
+    input_one = shift(input_one, 8, print_shift);
 
     String input_one_decimal_string = string_conversion(decimal_conversion(input_one, false));
     input_one_decimal_string = integer_size_increase(input_one_decimal_string);
