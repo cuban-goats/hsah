@@ -347,12 +347,14 @@ public class HsahingClass {
 
   public static String integer_size_increase(String input) {
     BigInteger number = new BigInteger(input);
+    String snipped_string = input.substring(input.length() - Math.round(input.length() / 20), input.length());
+    BigInteger snipped_biginteger = new BigInteger(snipped_string);
     BigInteger limit = BigInteger.valueOf(2).pow(1024);
     while (number.compareTo(limit) < 0) {
-      number = number.add(number);
+      number = number.add(number).add(snipped_biginteger);
     }
     String number_string = number.toString();
-    number_string = number_string.substring(number_string.length() - 308, number_string.length());
+    number_string = number_string.substring(number_string.length() - 309, number_string.length());
     return number.toString();
   }
 
@@ -366,9 +368,9 @@ public class HsahingClass {
     return output;
   }
 
-  public static void write_to_file(String data) {
+  public static void write_to_file(String file, String data) {
     try {
-      BufferedWriter output_file = new BufferedWriter(new FileWriter("outputHash.txt", true));
+      BufferedWriter output_file = new BufferedWriter(new FileWriter(file, true));
       output_file.write(data + "\n");
       output_file.close();
       System.out.println("Successfully wrote to the file.");
@@ -378,7 +380,7 @@ public class HsahingClass {
     }
   }
 
-  public static String hsah(String data) {
+  public static String hsah(String output_file, String data) {
     Boolean print_inputs = false;
     Boolean print_xor = false;
     Boolean print_shift = false;
@@ -432,7 +434,7 @@ public class HsahingClass {
     result = integer_size_increase(result);
     result = increase_loop(result, data);
 
-    write_to_file(result);
+    write_to_file(output_file, result);
     System.out.println(result);
     return result;
   };

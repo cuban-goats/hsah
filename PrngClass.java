@@ -45,7 +45,7 @@ public class PrngClass {
     int c = 88382;
     int m = 12323;
 
-    int[] pseudo_random_numbers = new int[100];
+    int[] pseudo_random_numbers = new int[1000];
     pseudo_random_numbers[0] = (a * seed_int + c) % m;
     for (int i = 0; i < pseudo_random_numbers.length - 1; i++) {
       if (i > 0) {
@@ -66,7 +66,7 @@ public class PrngClass {
     String[] hashed_value = random;
     for (int i = 0; i < hashed_value.length; i++) {
       if (hashed_value[i] != null) {
-        hashed_value[i] = HsahingClass.hsah(hashed_value[i]);
+        hashed_value[i] = HsahingClass.hsah("prng_hashes.txt", hashed_value[i]);
       }
     }
     return hashed_value;
